@@ -3,16 +3,20 @@
 echo "Welcome TO Employee Wages Problem"
 
 EMP_RATE_PERHR=20;
-EMP_HR=8;
+isPartTime=1;
+isFullTime=2;
 
-randomCheck=$(( RANDOM%2 ))
+randomCheck=$(( RANDOM%3 ))
 
-if [[ $randomCheck -eq 1 ]];
+if [[ $randomCheck -eq $isFullTime ]];
  then
-	echo "Employee is  present"
-	salary=$((EMP_RATE_PERHR*EMP_HR));
+		empHrs=8;
 
-elif [[ $randomCheck -eq 0 ]];
+elif [[ $randomCheck -eq $isPartTime ]];
  then
-	echo "Employee not present"	
+		empHrs=4;
+else
+		empHrs=0;			
 fi
+
+salary=$((EMP_RATE_PERHR*empHrs));
