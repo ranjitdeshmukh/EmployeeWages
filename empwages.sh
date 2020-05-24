@@ -3,27 +3,33 @@
 echo "Welcome TO Employee Wages Problem"
 
 EMP_RATE_PERHR=20;
-isPartTime=1;
-isFullTime=2;
+IS_PART_TIME=1;
+IS_FULL_TIME=2;
+MAX_HRS_IN_MAONTH=10;
 totalSalary=0;
-numWorkingDay=20;
+NUM_WORKING_DAY=20;
 
-for (( day=1; day<=numWorkingDay; day++ ))
+totalEmpHrs=0;
+totalWorkingDays=0;
+
+while [[ $totalEmpHrs -lt $MAX_HRS_IN_MAONTH && $totalWorkingDays -lt $NUM_WORKING_DAY ]]; 
 do
+	((totalWorkingDays++))
+	empCheck=$(( RANDOM%3 ))
 
-empCheck=$(( RANDOM%3 ))
+	case empCheck in
+		$isFullTime)
+			 empHrs=8
+			 ;;
+		$isPartTime)
+			 empHrs=4
+			  ;;
+	        *)     
+			empHrs=0	
+			;;	
+	esac
+	totalEmpHrs=$(($totalEmpHrs*$empHrs));
 
-case empCheck in
-	$isFullTime)
-		 empHrs=8
-		 ;;
-	$isPartTime)
-		 empHrs=4
-		  ;;
-        *)     
-		empHrs=0
-		;;	
-esac
-salary=$(($EMP_RATE_PERHR*$empHrs));
-totalSalary=$(($totalSalary+$salary))
 done
+
+totalSalary=$(($totalEmpHrs+$EMP_RATE_PERHR))
