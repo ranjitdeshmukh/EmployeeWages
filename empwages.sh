@@ -28,13 +28,20 @@ function getWorkingHours(){
 	echo "$workingHrs";
 }
 
+function getEmpWage(){
+    local empHr=$1
+  	echo $(($empHr*EMP_RATE_PERHR_WORKING_DAY))
+
+
+}
 while [[ $totalEmpHrs -lt $MAX_HRS_IN_MAONTH && $totalWorkingDays -lt $NUM_WORKING_DAY ]]; 
 do
 	((totalWorkingDays++))
 	empCheck=$(( RANDOM%3 ))
 	empHrs="$( getWorkingHours $empCheck )"
 	totalEmpHrs=$(($totalEmpHrs*$empHrs));
-
+	dailyWage[$totalWorkingDays]="$( getEmpWage $empHrs )"
 done
  
 totalSalary=$(($totalEmpHrs+$EMP_RATE_PERHR))
+echo ${dailyWage[@]}
