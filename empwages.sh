@@ -1,4 +1,4 @@
-#!/bin/bash -x
+
 
 echo "Welcome TO Employee Wages Problem"
 
@@ -12,6 +12,7 @@ totalEmpHrs=0;
 totalWorkingDays=0;
 totalSalary=0;
 declare -A dailyWage
+
 function getWorkingHours(){
 	local empCheck=$1
 	case $empCheck in
@@ -30,17 +31,26 @@ function getWorkingHours(){
 
 function getEmpWage(){
     local empHr=$1
-  	echo $(($empHr*EMP_RATE_PERHR_WORKING_DAY))
+  	echo $(($empHr*EMP_RATE_PERHR))
 }
+
 while [[ $totalEmpHrs -lt $MAX_HRS_IN_MAONTH && $totalWorkingDays -lt $NUM_WORKING_DAY ]]; 
 do
 	((totalWorkingDays++))
 	empCheck=$(( RANDOM%3 ))
 	empHrs="$( getWorkingHours $empCheck )"
 	totalEmpHrs=$(($totalEmpHrs*$empHrs));
-	dailyWage["day " $totalWorkingDays ]="$( getEmpWage $empHrs )"
+	dailyWage["$totalWorkingDays" ]="$( getEmpWage $empHrs )"
 done
  
 totalSalary=$(($totalEmpHrs*$EMP_RATE_PERHR))
-echo ${dailyWage[@]}
-echo ${!dailyWage[@]}
+
+echo " Day No.     Wages     TotalWages"
+
+set -- ${dailyWage[@]}
+for j in ${!dailyWage[@]};
+do
+  let tot+=${dailyWage[@]}
+  echo " day $j     $1         $tot"     
+  shift
+done
